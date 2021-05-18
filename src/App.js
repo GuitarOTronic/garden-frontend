@@ -19,8 +19,8 @@ function App() {
     const minutes = currentTime.getMinutes();
     return setCurrentTime(`${hours > 12 ? hours - 12 : hours}:${minutes < 10 ? `0${minutes}` : minutes}`);
   }
-  const ONE_MINUTE = 1000;
-  const TEN_MINUTES = 10000;
+  const ONE_MINUTE = 60000;
+  const TEN_MINUTES = 600000;
 
   // fetch temperature data from DB
   useEffect(() => {
@@ -92,7 +92,7 @@ function App() {
 
   useEffect(() => {
     const startCurrentTempRoutine = () => {
-      timedFunctionCall(ONE_MINUTE, () => getGreenhouseTemp(setGreenhouseTemp))
+      timedFunctionCall(TEN_MINUTES, () => getGreenhouseTemp(setGreenhouseTemp))
     }
     startCurrentTempRoutine()
   }, [])
