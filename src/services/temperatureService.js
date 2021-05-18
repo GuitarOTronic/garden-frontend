@@ -6,7 +6,7 @@ export const getGreenhouseTemp = async (cb) => {
         return res.json()
       })
       .then((data) => {
-        cb(data.currentTemp)
+        cb(parseFloat(data.currentTemp).toFixed(2))
       })
   }
   catch (err) {
