@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import './App.css';
 import { DailyForecast } from "./components/DailyForecast";
+import { getCurrentTime, timedFunctionCall } from "./clockService";
 // import { TemperatureChart } from "./TemperatureChart";
 
 function App() {
@@ -9,6 +10,15 @@ function App() {
   const [dailyWeather, setDailyWeather] = useState([]);
   const [greenhouseTemp, setGreenhouseTemp] = useState("")
 
+
+  const [currentTime, setCurrentTime] = useState("")
+  const getCurrentTime = () => {
+    let currentTime = new Date();
+    const hours = currentTime.getHours();
+    const minutes = currentTime.getMinutes();
+    return setCurrentTime(`${hours> 12 ? hours - 12 : hours}:${minutes < 10 ? `0${minutes}` : minutes}`);
+  }
+  const ONE_MINUTE = 1000;
   // fetch temperature data from DB
   useEffect(() => {
     const getData = async () => {
@@ -69,13 +79,27 @@ function App() {
   }, [])
 
 
+
+  useEffect(() => {
+    const startClockRoutine = () => {
+      timedFunctionCall(ONE_MINUTE, getCurrentTime);
+    }
+    startClockRoutine();
+  }
+  )
+
   return (
     <div className="App">
-      <div>
-
-        <h3>Current Clotch Temp:</h3> {greenhouseTemp}F
+      <div className="current-time">{currentTime}</div>
+      <div className="data-container">
+        <div className="left-column">
+          <h3>Current Clotch Temp:</h3>
+          <div>{greenhouseTemp} <sup>ºF</sup></div>
+        </div>
+        <div className="right-column">
+        <DailyForecast dailyWeather={dailyWeather} />
+        </div>
       </div>
-      <DailyForecast dailyWeather={dailyWeather} />
       {/* <TemperatureChart d={data} /> */}
     </div>
   );
