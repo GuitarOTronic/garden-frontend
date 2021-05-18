@@ -32,7 +32,7 @@ function App() {
             return response.json()
           })
           .then(data => {
-            setData(data.response)
+            setData(parseFloat(data.response).toFixed(2))
           })
           .catch(err => console.error(err));
       }
@@ -71,7 +71,7 @@ function App() {
             return res.json()
           })
           .then((data) => {
-            setGreenhouseTemp(data.currentTemp)
+            setGreenhouseTemp(parseFloat(data.currentTemp).toFixed(2))
           })
       }
       catch (err) {
